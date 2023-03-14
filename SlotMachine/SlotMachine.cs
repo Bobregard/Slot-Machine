@@ -9,15 +9,16 @@ namespace SlotMachine
 {
     public class SlotMachine
     {
-        private UserInputHandler _userInputHandler;
-        private SpinGenerator _spinGenerator;
-        private MachineCalculator _machineCalculator;
+        // Make 3 interfaces and inject them in the constructor here (DIP principle from SOLID) instead of sticking to other components
+        private IUserInputHandler _userInputHandler;
+        private ISpinGenerator _spinGenerator;
+        private IMachineCalculator _machineCalculator;
 
-        public SlotMachine()
+        public SlotMachine(IMachineCalculator machineCalculator, ISpinGenerator spinGenerator, IUserInputHandler userInputHandler)
         {
-            _userInputHandler = new UserInputHandler();
-            _spinGenerator = new SpinGenerator();
-            _machineCalculator = new MachineCalculator();
+            _userInputHandler = userInputHandler;
+            _spinGenerator = spinGenerator;
+            _machineCalculator = machineCalculator;
         }
 
         public void Run()
