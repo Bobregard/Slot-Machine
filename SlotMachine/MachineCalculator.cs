@@ -30,38 +30,18 @@ namespace SlotMachine
             }
             return _win;
         }
-
+        
+        // You can write this method using ternary operator which is a shorter way to write if-else statements 
         private decimal CalculateForSymbols(string row, decimal stake, bool calculateStars)
         {
             int starCount = row.Count(c => c == Constants.Star);
-            int multiplier;
-            decimal tempWin = 0;
 
-            if (!calculateStars)
-            {
-                multiplier = 3;
-            }
-            else if (starCount == 1)
-            {
-                multiplier = 2;
-            }
-            else
-            {
-                multiplier = 1;
-            }
+            var multiplier = calculateStars ? (starCount == 1 ? 2 : 1) : 3;
 
-            if (row.Contains(Constants.Apple))
-            {
-                tempWin = Constants.AppleCoefficient * multiplier * stake;
-            }
-            else if (row.Contains(Constants.Banana))
-            {
-                tempWin = Constants.BananaCoefficient * multiplier * stake;
-            }
-            else if (row.Contains(Constants.Pineapple))
-            {
-                tempWin = Constants.PineappleCoefficient * multiplier * stake;
-            }
+            var tempWin = row.Contains(Constants.Apple) ? Constants.AppleCoefficient * multiplier * stake :
+                          (row.Contains(Constants.Banana) ? Constants.BananaCoefficient * multiplier * stake :
+                          (row.Contains(Constants.Pineapple) ? Constants.PineappleCoefficient * multiplier * stake : 0));
+
             return tempWin;
         }
 
