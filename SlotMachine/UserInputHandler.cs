@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SlotMachine.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SlotMachine
 {
-    public class UserInputHandler
+    public class UserInputHandler : IUserInputHandler
     {
         public decimal GetValidDecimalFromUserInput(bool isStake)
         {

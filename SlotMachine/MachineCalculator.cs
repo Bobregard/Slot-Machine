@@ -1,4 +1,5 @@
-﻿using SlotMachine.Utility;
+﻿using SlotMachine.Interfaces;
+using SlotMachine.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SlotMachine
 {
-    public class MachineCalculator
+    public class MachineCalculator : IMachineCalculator
     {
         private decimal _win;
 
@@ -34,35 +35,13 @@ namespace SlotMachine
         private decimal CalculateForSymbols(string row, decimal stake, bool calculateStars)
         {
             int starCount = row.Count(c => c == Constants.Star);
-            int multiplier;
-            decimal tempWin = 0;
+            var multiplier = calculateStars ? (starCount == 1 ? 2 : 1) : 3;
 
-            if (!calculateStars)
-            {
-                multiplier = 3;
-            }
-            else if (starCount == 1)
-            {
-                multiplier = 2;
-            }
-            else
-            {
-                multiplier = 1;
-            }
+            var win = row.Contains(Constants.Apple) ? Constants.AppleCoefficient * multiplier * stake :
+                          (row.Contains(Constants.Banana) ? Constants.BananaCoefficient * multiplier * stake :
+                          (row.Contains(Constants.Pineapple) ? Constants.PineappleCoefficient * multiplier * stake : 0));
 
-            if (row.Contains(Constants.Apple))
-            {
-                tempWin = Constants.AppleCoefficient * multiplier * stake;
-            }
-            else if (row.Contains(Constants.Banana))
-            {
-                tempWin = Constants.BananaCoefficient * multiplier * stake;
-            }
-            else if (row.Contains(Constants.Pineapple))
-            {
-                tempWin = Constants.PineappleCoefficient * multiplier * stake;
-            }
-            return tempWin;
+            return win;
         }
 
         public decimal CalculateTotalCash(decimal money)

@@ -1,4 +1,5 @@
-﻿using SlotMachine.Utility;
+﻿using SlotMachine.Interfaces;
+using SlotMachine.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +8,24 @@ using System.Threading.Tasks;
 
 namespace SlotMachine
 {
-    public class SpinGenerator
+    public class SpinGenerator : ISpinGenerator
     {
-        private RandomNumberGenerator _randomNumberGenerator;
+        private readonly IRandomNumberGenerator _randomNumberGenerator;
 
-        public SpinGenerator()
+        public SpinGenerator(IRandomNumberGenerator randomNumberGenerator)
         {
-            _randomNumberGenerator = new RandomNumberGenerator();
+            _randomNumberGenerator = randomNumberGenerator;
         }
 
         public char[,] GenerateSpin()
         {
             char[,] matrix = new char[4, 3];
+            
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    int randomNum = _randomNumberGenerator.GenerateRandomNumber(0, 100);
+                    int randomNum = _randomNumberGenerator.GenerateRandomNumber();
                     if (randomNum < Constants.ChanceForApple)
                     {
                         matrix[i, j] = Constants.Apple;

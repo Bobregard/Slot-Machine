@@ -1,4 +1,5 @@
-﻿using SlotMachine.Utility;
+﻿using SlotMachine.Interfaces;
+using SlotMachine.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace SlotMachine
 {
-    public class SlotMachine
+    public class SlotMachine : ISlotMachine
     {
-        private UserInputHandler _userInputHandler;
-        private SpinGenerator _spinGenerator;
-        private MachineCalculator _machineCalculator;
+        private readonly IUserInputHandler _userInputHandler;
+        private readonly ISpinGenerator _spinGenerator;
+        private readonly IMachineCalculator _machineCalculator;
 
-        public SlotMachine()
+        public SlotMachine(IUserInputHandler userInputHandler, ISpinGenerator spinGenerator, IMachineCalculator machineCalculator)
         {
-            _userInputHandler = new UserInputHandler();
-            _spinGenerator = new SpinGenerator();
-            _machineCalculator = new MachineCalculator();
+            _userInputHandler = userInputHandler;
+            _spinGenerator = spinGenerator;
+            _machineCalculator = machineCalculator;
         }
 
         public void Run()
